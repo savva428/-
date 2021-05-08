@@ -18,23 +18,39 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def update(self):
         key_pressed = key.get_pressed()
-        if key_pressed[K_LEFT] and self.rect.x>5:
-            self.rect.x-=self.speed 
-        if key_pressed[K_RIGHT] and self.rect.x<715:
-            self.rect.x+=self.speed 
+        if key_pressed[K_UP] and self.rect.y>0:
+            self.rect.y-=self.speed 
+        if key_pressed[K_DOWN] and self.rect.y<500:
+            self.rect.y+=self.speed 
+class Player2(GameSprite):
+    def update(self):
+        key_pressed = key.get_pressed()
+        if key_pressed[K_w] and self.rect.y>0:
+            self.rect.y-=self.speed 
+        if key_pressed[K_s] and self.rect.y<500:
+            self.rect.y+=self.speed 
+
+palka1 =Player('palka.png',20,100,40,300,1)
+palka2 =Player2('palka.png',20,100,930,300,1)
+a = ((randint(0,255),randint(0,255),randint(0,255)))
 
 #Игровая сцена:
 finish= False
 game = True
 window = display.set_mode((1000, 600))
 display.set_caption("Bestes Spiel")
-window.fill((randint(0,255),randint(0,255),randint(0,255)))
+window.fill(a)
 
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
     if not(finish):
+        window.fill(a)
+        palka1.reset()
+        palka1.update()
+        palka2.reset()
+        palka2.update()
         window.blit
         display.update()
     
