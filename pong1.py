@@ -33,10 +33,12 @@ class Player2(GameSprite):
 palka1 =Player('palka.png',20,100,40,300,1)
 palka2 =Player2('palka.png',20,100,930,300,1)
 a = ((randint(0,255),randint(0,255),randint(0,255)))
-
+c = 0
+b = 0
 #Игровая сцена:
 finish= False
 game = True
+font.init()
 window = display.set_mode((1000, 600))
 display.set_caption("Bestes Spiel")
 window.fill(a)
@@ -52,5 +54,7 @@ while game:
         palka2.reset()
         palka2.update()
         window.blit
+        text = font.SysFont('Arial', 36).render('очки '+ str(c)+' : '+ str(b), 1, (0,0,0))
+        window.blit(text,(450,40)) 
         display.update()
     
