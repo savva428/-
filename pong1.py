@@ -1,20 +1,19 @@
 from pygame import *
 from random import randint
 from time import time as timer
-#класс-родитель для спрайтов
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, w, h, player_x, player_y, player_speed):
         super().__init__()
-        # каждый спрайт должен хранить свойство image - изображение
         self.image = transform.scale(image.load(player_image), (w, h))
         self.speed = player_speed
-        # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
+        self.speed_x = self.speed
+        self.speed_y = self.speed
+
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
-
 class Player(GameSprite):
     def update(self):
         key_pressed = key.get_pressed()
@@ -28,17 +27,43 @@ class Player2(GameSprite):
         if key_pressed[K_w] and self.rect.y>0:
             self.rect.y-=self.speed 
         if key_pressed[K_s] and self.rect.y<500:
-            self.rect.y+=self.speed 
+            self.rect.y+=self.speed
+class Ball(GameSprite):
+    def update(self):
+        global b
+        global c
+        self.rect.y += self.speed_y
+        self.rect.x += self.speed_x
+        if self.rect.y <1 or self.rect.y >549:
+            self.speed_y*=-1
+        if sprite.collide_rect(ball_1,palka1) or sprite.collide_rect(ball_1,palka2):
+            self.speed_x*=-1
+        if self.rect.x > 949:
+            c += 1
+            self.rect.x = 500
+            self.rect.y = 300
+            self.speed_x*=-1
+        if self.rect.x < 1:
+            b += 1
+            self.rect.x = 500
+            self.rect.y = 300
+            self.speed_x*=-1   
 
-palka1 =Player('palka.png',20,100,40,300,1)
-palka2 =Player2('palka.png',20,100,930,300,1)
+
+palka1 =Player('palka.png',15,100,930,300,10)
+palka2 =Player2('palka.png',15,100,40,300,10)
+ball_1 = Ball('krug.png',50,50,500,300,3)
 a = ((randint(0,255),randint(0,255),randint(0,255)))
+collar = ((randint(0,255),randint(0,255),randint(0,255)))
 c = 0
 b = 0
-#Игровая сцена:
+speed_y = 2
+speed_x = 2
+clock = time.Clock()
 finish= False
 game = True
 font.init()
+text = font.SysFont('Arial', 36).render('очки '+ str(c)+' : '+ str(b), 1, (collar))
 window = display.set_mode((1000, 600))
 display.set_caption("Bestes Spiel")
 window.fill(a)
@@ -47,14 +72,16 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
+    window.fill(a)
+    window.blit(text,(450,40)) 
     if not(finish):
-        window.fill(a)
+        ball_1.reset()
+        ball_1.update()
         palka1.reset()
         palka1.update()
         palka2.reset()
         palka2.update()
         window.blit
-        text = font.SysFont('Arial', 36).render('очки '+ str(c)+' : '+ str(b), 1, (0,0,0))
-        window.blit(text,(450,40)) 
-        display.update()
-    
+        text = font.SysFont('Arial', 36).render('очки '+ str(c)+' : '+ str(b), 1, (collar))
+    display.update()
+    clock.tick(120)
