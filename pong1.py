@@ -58,9 +58,9 @@ class Ball(GameSprite):
             self.speed_x*=-1   
             gol.play()
 
-palka1 =Player('palka.png',15,100,930,300,3)
-palka2 =Player2('palka.png',15,100,40,300,3)
-ball_1 = Ball('krug.png',50,50,500,300,1)
+palka1 =Player('rocket.png',15,100,930,300,3)
+palka2 =Player2('rocket.png',15,100,40,300,3)
+ball_1 = Ball('ball.png',50,50,500,300,1)
 
 
 a = ((randint(0,255),randint(0,255),randint(0,255)))
@@ -92,7 +92,7 @@ while game:
         if e.type == QUIT:
             game = False
     window.fill(a)
-    window.blit(text,(200,150))
+    window.blit(text,(150,150))
     window.blit(text2,(700,150))  
     if not(finish):
         ball_1.reset()
@@ -105,4 +105,4 @@ while game:
         text = font.SysFont('Arial',300).render(str(c), 1, (collar))
         text2 = font.SysFont('Arial',300).render(str(b), 1, (collar))
     display.update()
-    clock.tick(380)
+    clock.tick(580)
