@@ -65,6 +65,7 @@ ball_1 = Ball('ball.png',50,50,500,300,1)
 
 a = ((randint(0,255),randint(0,255),randint(0,255)))
 collar = ((randint(0,255),randint(0,255),randint(0,255)))
+collar2 = (0,0,0)
 c = 0
 b = 0
 speed_y = 2
@@ -82,6 +83,8 @@ font.init()
 
 text = font.SysFont('Arial',100).render(str(c), 1, (collar))
 text2 = font.SysFont('Arial',100).render(str(b), 1, (collar))
+text3 = font.SysFont('Arial',50).render('!левый победил!', 1, (collar2))
+text4 = font.SysFont('Arial',50).render('!правый победил!', 1, (collar2))
 window = display.set_mode((1000, 600))
 display.set_caption("Bestes Spiel")
 
@@ -93,7 +96,13 @@ while game:
             game = False
     window.fill(a)
     window.blit(text,(150,150))
-    window.blit(text2,(700,150))  
+    window.blit(text2,(700,150))
+    if c == 10:
+        finish = True
+        window.blit(text3,(300,50))
+    if b == 10:
+        finish = True
+        window.blit(text4,(300,50))
     if not(finish):
         ball_1.reset()
         ball_1.update()
@@ -105,4 +114,4 @@ while game:
         text = font.SysFont('Arial',300).render(str(c), 1, (collar))
         text2 = font.SysFont('Arial',300).render(str(b), 1, (collar))
     display.update()
-    clock.tick(580)
+    clock.tick(380)
